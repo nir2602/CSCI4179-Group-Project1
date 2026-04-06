@@ -3,6 +3,8 @@
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.metrics import classification_report, accuracy_score, confusion_matrix
 
+from util.plotting import plot, feature_importance
+
 import time
 
 class RandomForestCLS:
@@ -10,7 +12,7 @@ class RandomForestCLS:
     classifier: RandomForestClassifier
     
     def __init__(self, n_estimators=100, random_state=42):
-        self.classifier = RandomForestClassifier(n_estimators=n_estimators, random_state=random_state)
+        self.classifier = RandomForestClassifier(n_estimators=n_estimators, random_state=random_state, verbose=1, n_jobs=-1, class_weight="balanced")
             
     
     # def get_training_split(self, X, y, test_size=0.3, random_state=42):
@@ -23,6 +25,7 @@ class RandomForestCLS:
 
     def train_random_forest(self, X_train, y_train):
         # time the dataset training
+        print("Training Random Forest...")
         start_time = time.time()
         
         # train dataset 
@@ -32,6 +35,7 @@ class RandomForestCLS:
         
         print("Training complete.")
         print(f"Training time: {end_time - start_time:.2f} seconds")
+        self.feature_importance(X_train)
         
     def predict(self, X_test):
         return self.classifier.predict(X_test)
@@ -42,7 +46,15 @@ class RandomForestCLS:
         print("Accuracy:", accuracy_score(y_test, y_pred))
         print("Confusion Matrix:")
         print(confusion_matrix(y_test, y_pred))
-    
+        self.plot(y_pred, y_test)
+        
+    def plot(self, y_pred, y_test):
+        # plot
+        plot(y_pred, y_test, model_name="random_forest")
+        
+        
+    def feature_importance(self, X_train):
+        feature_importance(self.classifier.feature_importances_, X_train.columns, model_name="random_forest")
 
 if __name__ == "__main__":
     rf_cls = RandomForestCLS()
