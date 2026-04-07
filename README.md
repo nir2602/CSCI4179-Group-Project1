@@ -1,4 +1,4 @@
-# Machne Learning Baed Anomaly Detection for V2X Wireless Traffic
+# Machne Learning Based Anomaly Detection for V2X Wireless Traffic
 
 This is a study of the performance of various machine learning models on detecting anomalous behaviour in a Internet of Vehicles V2X (Vehicle to Everything) context. Training was done on the CICIov2024 dataset. More information can be found before.
 
