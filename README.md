@@ -1,4 +1,8 @@
-# CSCI4179-Project
+# Machne Learning Baed Anomaly Detection for V2X Wireless Traffic
+
+This is a study of the performance of various machine learning models on detecting anomalous behaviour in a Internet of Vehicles V2X (Vehicle to Everything) context. Training was done on the CICIov2024 dataset. More information can be found before.
+
+This study was conducted to stasify the requirements of CSCI4179/CSCI6711 - Intelligent Wireless Networks final project.  
 
 # Installation and Usage
 
