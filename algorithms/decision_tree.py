@@ -4,6 +4,9 @@ from sklearn.metrics import classification_report, accuracy_score, confusion_mat
 #from util.process_dataset import get_dataset
 import time
 
+from util.plotting import plot, feature_importance
+
+
 class DecisionTreeCLS:
     classifier: DecisionTreeClassifier
 
@@ -34,6 +37,8 @@ class DecisionTreeCLS:
 
         print("Decision Tree training complete")
         print(f"Training time: {end - start:.2f} seconds")
+        feature_importance(self.classifier.feature_importances_, 
+                           X_train.columns, model_name="decision_tree")
 
     def predict(self, X_test):
         return self.classifier.predict(X_test)
@@ -44,6 +49,9 @@ class DecisionTreeCLS:
         print("Accuracy:", accuracy_score(y_test, y_pred))
         print("Confusion Matrix:")
         print(confusion_matrix(y_test, y_pred))
+        
+        plot(y_pred, y_test, model_name="decision_tree")
+        
 
 
 # if __name__ == "__main__":
