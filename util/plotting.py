@@ -35,19 +35,36 @@ def plot_f1_score_by_class(y_pred, y_test, model_name="model"):
     os.makedirs(f"plots/{model_name}", exist_ok=True)
     plt.savefig(f"plots/{model_name}/f1_score_by_class.png", dpi=300, bbox_inches="tight")
     plt.close()
-    
-def plot(y_pred, y_test, model_name="model"):
-    
-    # plot confusion matrix
-    plot_confusion_matrix(y_pred, y_test, model_name=model_name)
-    
-    # f1 score by class
-    plot_f1_score_by_class(y_pred, y_test, model_name=model_name)
-    
-    
-def feature_importance(feature_importances, feature_names, model_name="model"):
-    import matplotlib.pyplot as plt
 
+def plot_recall_by_class(y_pred, y_test, model_name="model"):
+    report = classification_report(y_test, y_pred, output_dict=True)
+    recall_scores = {label: metrics['recall'] for label, metrics in report.items() if label not in ['accuracy', 'macro avg', 'weighted avg']}
+    plt.figure(figsize=(8, 6))
+    sns.barplot(x=list(recall_scores.keys()), y=list(recall_scores.values()), palette='viridis')
+    plt.xlabel('Class')
+    plt.ylabel('Recall')
+    plt.title('Recall by Class')
+    plt.ylim(0, 1)
+    plt.tight_layout()
+    os.makedirs(f"plots/{model_name}", exist_ok=True)
+    plt.savefig(f"plots/{model_name}/recall_by_class.png", dpi=300, bbox_inches="tight")
+    plt.close()
+
+def plot_precision_by_class(y_pred, y_test, model_name="model"):
+    report = classification_report(y_test, y_pred, output_dict=True)
+    precision_scores = {label: metrics['precision'] for label, metrics in report.items() if label not in ['accuracy', 'macro avg', 'weighted avg']}
+    plt.figure(figsize=(8, 6))
+    sns.barplot(x=list(precision_scores.keys()), y=list(precision_scores.values()), palette='viridis')
+    plt.xlabel('Class')
+    plt.ylabel('Precision')
+    plt.title('Precision by Class')
+    plt.ylim(0, 1)
+    plt.tight_layout()
+    os.makedirs(f"plots/{model_name}", exist_ok=True)
+    plt.savefig(f"plots/{model_name}/precision_by_class.png", dpi=300, bbox_inches="tight")
+    plt.close()
+
+def feature_importance(feature_importances, feature_names, model_name="model"):
     os.makedirs(f"plots/{model_name}", exist_ok=True)
 
     feature_importance_dict = dict(zip(feature_names, feature_importances))
@@ -68,6 +85,20 @@ def feature_importance(feature_importances, feature_names, model_name="model"):
     plt.savefig(f"plots/{model_name}/feature_importance.png", dpi=300, bbox_inches="tight")
     plt.close()
 
-
+def plot(y_pred, y_test, model_name="model"):
+    
+    # plot confusion matrix
+    plot_confusion_matrix(y_pred, y_test, model_name=model_name)
+    
+    # f1 score by class
+    plot_f1_score_by_class(y_pred, y_test, model_name=model_name)
+    
+    # recall by class
+    plot_recall_by_class(y_pred, y_test, model_name=model_name)
+    
+    # precision by class
+    plot_precision_by_class(y_pred, y_test, model_name=model_name)
+    
+    
     
     
